@@ -1,0 +1,13 @@
+# macOS
+**/.DS_Store
+
+# IntelliJ
+.idea/
+*.iml
+
+# build temp
+build/
+
+# jars
+ant/lib/*.jar
+lib/*.jar
