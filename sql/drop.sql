@@ -1,0 +1,19 @@
+START TRANSACTION;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS `Отклик`;
+DROP TABLE IF EXISTS `Резюме_Опыт`;
+DROP TABLE IF EXISTS `Резюме_Образование`;
+DROP TABLE IF EXISTS `Вакансия`;
+DROP TABLE IF EXISTS `Опыт_работы`;
+DROP TABLE IF EXISTS `Образование`;
+DROP TABLE IF EXISTS `Резюме`;
+DROP TABLE IF EXISTS `Компания`;
+DROP TABLE IF EXISTS `Соискатель`;
+DROP TABLE IF EXISTS `Должность`;
+DROP TABLE IF EXISTS `Уровень_образования`;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+COMMIT;

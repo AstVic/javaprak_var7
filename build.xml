@@ -75,5 +75,4 @@
     <target name="db-drop-db">
         <run-sql-server file="${sql.dir}/drop_schema.sql"/>
     </target>
-
 </project>
