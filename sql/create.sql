@@ -96,14 +96,14 @@ CREATE TABLE `Опыт_работы` (
 
 CREATE TABLE `Вакансия` (
     `ID_вакансии` BIGINT NOT NULL AUTO_INCREMENT,
-    `Компания` BIGINT NOT NULL,
+    `ID_компании` BIGINT NOT NULL,
     `ID_должности` BIGINT NOT NULL,
     `Зарплата` BIGINT NOT NULL,
     `Мин_стаж_месяцев` BIGINT NOT NULL,
     `Мин_уровень_образования` BIGINT NOT NULL,
     PRIMARY KEY (`ID_вакансии`),
     CONSTRAINT `fk_вакансия_компания`
-        FOREIGN KEY (`Компания`) REFERENCES `Компания`(`ID_компании`)
+        FOREIGN KEY (`ID_компании`) REFERENCES `Компания`(`ID_компании`)
         ON DELETE CASCADE,
     CONSTRAINT `fk_вакансия_должность`
         FOREIGN KEY (`ID_должности`) REFERENCES `Должность`(`ID_должности`),
