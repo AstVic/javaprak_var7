@@ -58,6 +58,7 @@
 
                     <!-- КРИТИЧЕСКИЙ параметр -->
                     <skip>false</skip>
+                    <forceMojoExecution>true</forceMojoExecution>
 
                     <driver>org.postgresql.Driver</driver>
 
@@ -81,6 +82,50 @@
 
                 </configuration>
 
+                <executions>
+                    <execution>
+                        <id>db-create-tables</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</url>
+                            <srcFiles>
+                                <srcFile>${sql.dir}/create.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>db-fill-tables</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</url>
+                            <srcFiles>
+                                <srcFile>${sql.dir}/init.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>db-drop-tables</id>
+                        <phase>pre-clean</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</url>
+                            <srcFiles>
+                                <srcFile>${sql.dir}/drop.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+
             </plugin>
 
         </plugins>
@@ -100,6 +145,36 @@
 
                 <sql.file>
                     ${sql.dir}/show_dbs.sql
+                </sql.file>
+            </properties>
+
+        </profile>
+
+        <profile>
+            <id>db-create-schema</id>
+
+            <properties>
+                <sql.url>
+                    jdbc:postgresql://${db.host}:${db.port}/${postgres.adminDb}
+                </sql.url>
+
+                <sql.file>
+                    ${sql.dir}/create_schema.sql
+                </sql.file>
+            </properties>
+
+        </profile>
+
+        <profile>
+            <id>db-check-connection</id>
+
+            <properties>
+                <sql.url>
+                    jdbc:postgresql://${db.host}:${db.port}/${db.name}
+                </sql.url>
+
+                <sql.file>
+                    ${sql.dir}/check_connection.sql
                 </sql.file>
             </properties>
 
@@ -163,7 +238,7 @@
 
             <properties>
                 <sql.url>
-                    jdbc:postgresql://${db.host}:${db.port}/${db.name}
+                    jdbc:postgresql://${db.host}:${db.port}/${postgres.adminDb}
                 </sql.url>
 
                 <sql.file>

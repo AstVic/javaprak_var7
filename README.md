@@ -154,38 +154,34 @@
 
 | Команда | Что делает |
 |---|---|
-| `mvn initialize` | Выполняет `create_schema.sql` (создаёт базу данных `javaprak`). |
-| `mvn generate-resources` | Выполняет `create.sql` (создаёт таблицы). |
-| `mvn process-resources` | Выполняет `init.sql` (заполняет таблицы данными). |
+| `mvn initialize` | Выполняет `create.sql` (создаёт таблицы в уже существующей БД). |
+| `mvn generate-resources` | Выполняет `init.sql` (заполняет таблицы данными). |
 | `mvn pre-clean` | Выполняет `drop.sql` (удаляет таблицы). |
 
 ### 7.2 Полезные профили (отдельные цели)
 
 | Команда | Что делает |
 |---|---|
+| `mvn -Pdb-create-schema sql:execute` | Создаёт базу данных `javaprak` (`create_schema.sql`). Нужны права `CREATE DATABASE`. |
 | `mvn -Pdb-show-databases sql:execute` | Показывает список баз данных (`show_dbs.sql`). |
+| `mvn -Pdb-check-connection sql:execute` | Показывает текущую БД/схему и список таблиц, которые реально видит текущее подключение (`check_connection.sql`). |
 | `mvn -Pdb-drop-schema sql:execute` | Удаляет базу данных `javaprak` (`drop_schema.sql`). |
 
 ### 7.3 Полные сценарии запуска
 
 - Полная инициализация с нуля:
   ```bash
-  mvn pre-clean initialize generate-resources process-resources
+  mvn -Pdb-create-schema sql:execute
+  mvn initialize generate-resources
   ```
 - Только создание структуры без данных:
   ```bash
-  mvn initialize generate-resources
+  mvn initialize
   ```
 - Только повторная загрузка тестовых данных:
   ```bash
-  mvn process-resources
+  mvn generate-resources
   ```
-
-**Структура каталогов:**
-- `sql/` — SQL-скрипты;
-- `pom.xml` — конфигурация Maven для операций с PostgreSQL.
-
----
 
 ## 8. Вывод
 
