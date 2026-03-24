@@ -1,7 +1,5 @@
 BEGIN;
 
-SET search_path TO javaprak, public;
-
 INSERT INTO "Уровень_образования" ("ID_уровня", "Название") VALUES
 (1, 'Среднее'),
 (2, 'Среднее профессиональное'),

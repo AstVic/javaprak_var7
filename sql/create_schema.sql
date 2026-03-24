@@ -1,1 +1,1 @@
-CREATE SCHEMA IF NOT EXISTS javaprak;
+CREATE DATABASE javaprak;

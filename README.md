@@ -154,7 +154,7 @@
 
 | Команда | Что делает |
 |---|---|
-| `mvn initialize` | Выполняет `create_schema.sql` (создаёт схему `javaprak`). |
+| `mvn initialize` | Выполняет `create_schema.sql` (создаёт базу данных `javaprak`). |
 | `mvn generate-resources` | Выполняет `create.sql` (создаёт таблицы). |
 | `mvn process-resources` | Выполняет `init.sql` (заполняет таблицы данными). |
 | `mvn pre-clean` | Выполняет `drop.sql` (удаляет таблицы). |
@@ -164,7 +164,7 @@
 | Команда | Что делает |
 |---|---|
 | `mvn -Pdb-show-databases sql:execute` | Показывает список баз данных (`show_dbs.sql`). |
-| `mvn -Pdb-drop-schema sql:execute` | Удаляет схему `javaprak` (`drop_schema.sql`). |
+| `mvn -Pdb-drop-schema sql:execute` | Удаляет базу данных `javaprak` (`drop_schema.sql`). |
 
 ### 7.3 Полные сценарии запуска
 

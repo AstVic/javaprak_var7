@@ -1,7 +1,5 @@
 BEGIN;
 
-SET search_path TO javaprak, public;
-
 DROP TABLE IF EXISTS "Отклик" CASCADE;
 DROP TABLE IF EXISTS "Резюме_Опыт" CASCADE;
 DROP TABLE IF EXISTS "Резюме_Образование" CASCADE;
