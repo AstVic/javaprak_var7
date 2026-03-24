@@ -1,45 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.javaprak</groupId>
     <artifactId>javaprak7</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-    <packaging>pom</packaging>
-    <name>JavaPrak7 DB Scripts</name>
+    <name>JavaPrak7 Hibernate Backend</name>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- DB connection -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.11.4</junit.version>
+        <hibernate.version>6.5.2.Final</hibernate.version>
+
         <db.host>localhost</db.host>
         <db.port>5432</db.port>
         <db.name>javaprak</db.name>
         <db.user>postgres</db.user>
         <db.pass>postgres</db.pass>
-
         <postgres.adminDb>postgres</postgres.adminDb>
-
-        <!-- SQL folder -->
         <sql.dir>${project.basedir}/sql</sql.dir>
+        <sql.url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</sql.url>
+        <sql.file>${sql.dir}/show_dbs.sql</sql.file>
 
-        <!-- default values -->
-        <sql.url>
-            jdbc:postgresql://${db.host}:${db.port}/${db.name}
-        </sql.url>
-
-        <sql.file>
-            ${sql.dir}/show_dbs.sql
-        </sql.file>
     </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.16</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.3.232</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <useModulePath>false</useModulePath>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -55,31 +114,20 @@
                 </dependencies>
 
                 <configuration>
-
-                    <!-- КРИТИЧЕСКИЙ параметр -->
                     <skip>false</skip>
                     <forceMojoExecution>true</forceMojoExecution>
-
                     <driver>org.postgresql.Driver</driver>
-
                     <username>${db.user}</username>
                     <password>${db.pass}</password>
-
                     <url>${sql.url}</url>
-
                     <srcFiles>
                         <srcFile>${sql.file}</srcFile>
                     </srcFiles>
-
                     <autocommit>true</autocommit>
-
                     <delimiter>;</delimiter>
                     <delimiterType>normal</delimiterType>
-
                     <encoding>UTF-8</encoding>
-
                     <onError>abort</onError>
-
                 </configuration>
 
                 <executions>
@@ -124,130 +172,68 @@
                             </srcFiles>
                         </configuration>
                     </execution>
+
                 </executions>
-
             </plugin>
-
         </plugins>
     </build>
 
     <profiles>
-
-        <!-- показать базы -->
-
         <profile>
             <id>db-show-databases</id>
-
             <properties>
-                <sql.url>
-                    jdbc:postgresql://${db.host}:${db.port}/${postgres.adminDb}
-                </sql.url>
-
-                <sql.file>
-                    ${sql.dir}/show_dbs.sql
-                </sql.file>
+                <sql.url>jdbc:postgresql://${db.host}:${db.port}/${postgres.adminDb}</sql.url>
+                <sql.file>${sql.dir}/show_dbs.sql</sql.file>
             </properties>
-
         </profile>
 
         <profile>
             <id>db-create-schema</id>
-
             <properties>
-                <sql.url>
-                    jdbc:postgresql://${db.host}:${db.port}/${postgres.adminDb}
-                </sql.url>
-
-                <sql.file>
-                    ${sql.dir}/create_schema.sql
-                </sql.file>
+                <sql.url>jdbc:postgresql://${db.host}:${db.port}/${postgres.adminDb}</sql.url>
+                <sql.file>${sql.dir}/create_schema.sql</sql.file>
             </properties>
-
         </profile>
 
         <profile>
             <id>db-check-connection</id>
-
             <properties>
-                <sql.url>
-                    jdbc:postgresql://${db.host}:${db.port}/${db.name}
-                </sql.url>
-
-                <sql.file>
-                    ${sql.dir}/check_connection.sql
-                </sql.file>
+                <sql.url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</sql.url>
+                <sql.file>${sql.dir}/check_connection.sql</sql.file>
             </properties>
-
         </profile>
-
-        <!-- удалить таблицы -->
 
         <profile>
             <id>db-drop</id>
-
             <properties>
-                <sql.url>
-                    jdbc:postgresql://${db.host}:${db.port}/${db.name}
-                </sql.url>
-
-                <sql.file>
-                    ${sql.dir}/drop.sql
-                </sql.file>
+                <sql.url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</sql.url>
+                <sql.file>${sql.dir}/drop.sql</sql.file>
             </properties>
-
         </profile>
-
-        <!-- создать таблицы -->
 
         <profile>
             <id>db-create</id>
-
             <properties>
-                <sql.url>
-                    jdbc:postgresql://${db.host}:${db.port}/${db.name}
-                </sql.url>
-
-                <sql.file>
-                    ${sql.dir}/create.sql
-                </sql.file>
+                <sql.url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</sql.url>
+                <sql.file>${sql.dir}/create.sql</sql.file>
             </properties>
-
         </profile>
-
-        <!-- заполнить данными -->
 
         <profile>
             <id>db-fill</id>
-
             <properties>
-                <sql.url>
-                    jdbc:postgresql://${db.host}:${db.port}/${db.name}
-                </sql.url>
-
-                <sql.file>
-                    ${sql.dir}/init.sql
-                </sql.file>
+                <sql.url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</sql.url>
+                <sql.file>${sql.dir}/init.sql</sql.file>
             </properties>
-
         </profile>
-
-        <!-- удалить схему -->
 
         <profile>
             <id>db-drop-schema</id>
-
             <properties>
-                <sql.url>
-                    jdbc:postgresql://${db.host}:${db.port}/${postgres.adminDb}
-                </sql.url>
-
-                <sql.file>
-                    ${sql.dir}/drop_schema.sql
-                </sql.file>
+                <sql.url>jdbc:postgresql://${db.host}:${db.port}/${postgres.adminDb}</sql.url>
+                <sql.file>${sql.dir}/drop_schema.sql</sql.file>
             </properties>
-
         </profile>
-
     </profiles>
 
 </project>

@@ -11,3 +11,5 @@ build/
 # jars
 ant/lib/*.jar
 lib/*.jar
+
+target/

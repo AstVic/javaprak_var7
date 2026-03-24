@@ -1,0 +1,17 @@
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/dao/ApplicantDao.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/dao/EducationDao.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/dao/ResponseDao.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/dao/ResumeDao.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/dao/VacancyDao.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/dao/WorkExperienceDao.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/entity/Applicant.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/entity/Company.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/entity/Education.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/entity/EducationLevel.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/entity/Position.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/entity/Response.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/entity/ResponseStatus.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/entity/Resume.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/entity/Vacancy.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/entity/WorkExperience.java
+/Users/viktoriakuzovleva/Desktop/MSU/JavaPrak7/src/main/java/ru/javaprak/util/HibernateUtil.java
