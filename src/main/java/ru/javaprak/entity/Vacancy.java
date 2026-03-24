@@ -9,29 +9,29 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "\"Вакансия\"")
+@Table(name = "Вакансия")
 public class Vacancy {
 
     @Id
-    @Column(name = "\"ID_вакансии\"")
+    @Column(name = "ID_вакансии")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "\"ID_компании\"", nullable = false)
+    @JoinColumn(name = "ID_компании", nullable = false)
     private Company company;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "\"ID_должности\"", nullable = false)
+    @JoinColumn(name = "ID_должности", nullable = false)
     private Position position;
 
-    @Column(name = "\"Зарплата\"", nullable = false)
+    @Column(name = "Зарплата", nullable = false)
     private Long salary;
 
-    @Column(name = "\"Мин_стаж_месяцев\"", nullable = false)
+    @Column(name = "Мин_стаж_месяцев", nullable = false)
     private Long minMonthsExperience;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "\"Мин_уровень_образования\"", nullable = false)
+    @JoinColumn(name = "Мин_уровень_образования", nullable = false)
     private EducationLevel minEducationLevel;
 
     public Vacancy() {

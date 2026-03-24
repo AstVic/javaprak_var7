@@ -5,27 +5,27 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "\"Образование\"")
+@Table(name = "Образование")
 public class Education {
 
     @Id
-    @Column(name = "\"ID_образования\"")
+    @Column(name = "ID_образования")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "\"Уровень\"", nullable = false)
+    @JoinColumn(name = "Уровень", nullable = false)
     private EducationLevel level;
 
-    @Column(name = "\"Место_учебы\"", nullable = false)
+    @Column(name = "Место_учебы", nullable = false)
     private String institution;
 
-    @Column(name = "\"Направление\"", nullable = false)
+    @Column(name = "Направление", nullable = false)
     private String major;
 
-    @Column(name = "\"Дата_начала\"", nullable = false)
+    @Column(name = "Дата_начала", nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "\"Дата_окончания\"")
+    @Column(name = "Дата_окончания")
     private LocalDate endDate;
 
     public Education() {

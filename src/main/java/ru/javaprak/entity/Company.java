@@ -6,17 +6,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "\"Компания\"")
+@Table(name = "Компания")
 public class Company {
 
     @Id
-    @Column(name = "\"ID_компании\"")
+    @Column(name = "ID_компании")
     private Long id;
 
-    @Column(name = "\"Название\"", nullable = false)
+    @Column(name = "Название", nullable = false)
     private String name;
 
-    @Column(name = "\"Контактная_информация\"", nullable = false)
+    @Column(name = "Контактная_информация", nullable = false)
     private String contactInfo;
 
     public Company() {

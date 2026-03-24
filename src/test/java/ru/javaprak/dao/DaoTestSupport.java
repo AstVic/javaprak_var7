@@ -15,7 +15,17 @@ public abstract class DaoTestSupport {
     protected SessionFactory sessionFactory;
 
     protected void initSessionFactory() {
-        Configuration configuration = new Configuration().configure();
+        Configuration configuration = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(EducationLevel.class)
+                .addAnnotatedClass(Position.class)
+                .addAnnotatedClass(Applicant.class)
+                .addAnnotatedClass(Company.class)
+                .addAnnotatedClass(Education.class)
+                .addAnnotatedClass(WorkExperience.class)
+                .addAnnotatedClass(Response.class)
+                .addAnnotatedClass(Resume.class)
+                .addAnnotatedClass(Vacancy.class);
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())
                 .build();

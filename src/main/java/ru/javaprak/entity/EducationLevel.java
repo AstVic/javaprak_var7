@@ -6,14 +6,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "\"Уровень_образования\"")
+@Table(name = "Уровень_образования")
 public class EducationLevel {
 
     @Id
-    @Column(name = "\"ID_уровня\"")
+    @Column(name = "ID_уровня")
     private Long id;
 
-    @Column(name = "\"Название\"", nullable = false, unique = true)
+    @Column(name = "Название", nullable = false, unique = true)
     private String name;
 
     public EducationLevel() {

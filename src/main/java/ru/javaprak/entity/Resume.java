@@ -6,37 +6,37 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "\"Резюме\"")
+@Table(name = "Резюме")
 public class Resume {
 
     @Id
-    @Column(name = "\"ID_резюме\"")
+    @Column(name = "ID_резюме")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "\"Соискатель\"", nullable = false)
+    @JoinColumn(name = "Соискатель", nullable = false)
     private Applicant applicant;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "\"ID_должности\"", nullable = false)
+    @JoinColumn(name = "ID_должности", nullable = false)
     private Position position;
 
-    @Column(name = "\"Желаемая_зарплата_мин\"", nullable = false)
+    @Column(name = "Желаемая_зарплата_мин", nullable = false)
     private Long minSalary;
 
-    @Column(name = "\"Актуально\"", nullable = false)
+    @Column(name = "Актуально", nullable = false)
     private boolean active;
 
     @ManyToMany
-    @JoinTable(name = "\"Резюме_Образование\"",
-            joinColumns = @JoinColumn(name = "\"ID_резюме\""),
-            inverseJoinColumns = @JoinColumn(name = "\"ID_образования\""))
+    @JoinTable(name = "Резюме_Образование",
+            joinColumns = @JoinColumn(name = "ID_резюме"),
+            inverseJoinColumns = @JoinColumn(name = "ID_образования"))
     private Set<Education> educationRecords = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(name = "\"Резюме_Опыт\"",
-            joinColumns = @JoinColumn(name = "\"ID_резюме\""),
-            inverseJoinColumns = @JoinColumn(name = "\"ID_опыта\""))
+    @JoinTable(name = "Резюме_Опыт",
+            joinColumns = @JoinColumn(name = "ID_резюме"),
+            inverseJoinColumns = @JoinColumn(name = "ID_опыта"))
     private Set<WorkExperience> workExperiences = new HashSet<>();
 
     public Resume() {
