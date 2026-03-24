@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.javaprak</groupId>
+    <artifactId>javaprak7</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>JavaPrak7 DB Scripts</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <db.host>localhost</db.host>
+        <db.port>5432</db.port>
+        <db.name>javaprak</db.name>
+        <db.user>postgres</db.user>
+        <db.pass>postgres</db.pass>
+
+        <sql.dir>${project.basedir}/sql</sql.dir>
+        <postgres.adminDb>postgres</postgres.adminDb>
+
+        <!-- Used by direct CLI call: mvn -P... sql:execute -->
+        <sql.url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</sql.url>
+        <sql.file>${sql.dir}/show_dbs.sql</sql.file>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>42.7.7</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <driver>org.postgresql.Driver</driver>
+                    <username>${db.user}</username>
+                    <password>${db.pass}</password>
+                    <url>${sql.url}</url>
+                    <srcFiles>
+                        <srcFile>${sql.file}</srcFile>
+                    </srcFiles>
+                    <autocommit>true</autocommit>
+                    <delimiter>;</delimiter>
+                    <delimiterType>normal</delimiterType>
+                    <encoding>UTF-8</encoding>
+                    <onError>abort</onError>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>db-create-schema</id>
+                        <phase>initialize</phase>
+                        <goals><goal>execute</goal></goals>
+                        <configuration>
+                            <url>jdbc:postgresql://${db.host}:${db.port}/${postgres.adminDb}</url>
+                            <srcFiles>
+                                <srcFile>${sql.dir}/create_schema.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>db-drop</id>
+                        <phase>pre-clean</phase>
+                        <goals><goal>execute</goal></goals>
+                        <configuration>
+                            <url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</url>
+                            <srcFiles>
+                                <srcFile>${sql.dir}/drop.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>db-create</id>
+                        <phase>generate-resources</phase>
+                        <goals><goal>execute</goal></goals>
+                        <configuration>
+                            <url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</url>
+                            <srcFiles>
+                                <srcFile>${sql.dir}/create.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>db-fill</id>
+                        <phase>process-resources</phase>
+                        <goals><goal>execute</goal></goals>
+                        <configuration>
+                            <url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</url>
+                            <srcFiles>
+                                <srcFile>${sql.dir}/init.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>db-show-databases</id>
+            <properties>
+                <sql.url>jdbc:postgresql://${db.host}:${db.port}/${postgres.adminDb}</sql.url>
+                <sql.file>${sql.dir}/show_dbs.sql</sql.file>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>db-drop-schema</id>
+            <properties>
+                <sql.url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</sql.url>
+                <sql.file>${sql.dir}/drop_schema.sql</sql.file>
+            </properties>
+        </profile>
+    </profiles>
+</project>
