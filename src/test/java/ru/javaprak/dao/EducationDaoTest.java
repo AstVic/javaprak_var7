@@ -1,6 +1,7 @@
 package ru.javaprak.dao;
 
 import org.junit.jupiter.api.*;
+import ru.javaprak.support.DaoTestSupport;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

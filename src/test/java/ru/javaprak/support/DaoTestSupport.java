@@ -1,4 +1,4 @@
-package ru.javaprak.dao;
+package ru.javaprak.support;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
