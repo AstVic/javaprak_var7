@@ -14,14 +14,14 @@
         <property name="hibernate.show_sql">false</property>
         <property name="hibernate.format_sql">true</property>
 
-        <mapping class="ru.javaprak.var7.model.EducationLevel"/>
-        <mapping class="ru.javaprak.var7.model.Position"/>
-        <mapping class="ru.javaprak.var7.model.Applicant"/>
-        <mapping class="ru.javaprak.var7.model.Company"/>
-        <mapping class="ru.javaprak.var7.model.Education"/>
-        <mapping class="ru.javaprak.var7.model.WorkExperience"/>
-        <mapping class="ru.javaprak.var7.model.Response"/>
-        <mapping class="ru.javaprak.var7.model.Resume"/>
-        <mapping class="ru.javaprak.var7.model.Vacancy"/>
+        <mapping class="ru.javaprak.entity.EducationLevel"/>
+        <mapping class="ru.javaprak.entity.Position"/>
+        <mapping class="ru.javaprak.entity.Applicant"/>
+        <mapping class="ru.javaprak.entity.Company"/>
+        <mapping class="ru.javaprak.entity.Education"/>
+        <mapping class="ru.javaprak.entity.WorkExperience"/>
+        <mapping class="ru.javaprak.entity.Response"/>
+        <mapping class="ru.javaprak.entity.Resume"/>
+        <mapping class="ru.javaprak.entity.Vacancy"/>
     </session-factory>
 </hibernate-configuration>
