@@ -49,8 +49,8 @@ class ResumeDaoTest extends DaoTestSupport {
         List<Resume> resumes = resumeDao.findActiveByFilters(1L, 150_000L, 200_000L);
 
         assertEquals(1, resumes.size());
-        assertEquals(1L, resumes.getFirst().getId());
-        assertTrue(resumes.getFirst().isActive());
+        assertEquals(1L, resumes.get(0).getId());
+        assertTrue(resumes.get(0).isActive());
     }
 
     @Test

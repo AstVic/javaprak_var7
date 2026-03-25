@@ -31,8 +31,8 @@ class VacancyDaoTest extends DaoTestSupport {
         List<Vacancy> vacancies = vacancyDao.findByMinSalaryAndPosition(180_000L, 1L);
 
         assertEquals(1, vacancies.size());
-        assertEquals(1L, vacancies.getFirst().getId());
-        assertEquals(250_000L, vacancies.getFirst().getSalary());
+        assertEquals(1L, vacancies.get(0).getId());
+        assertEquals(250_000L, vacancies.get(0).getSalary());
     }
 
     @Test
@@ -48,7 +48,7 @@ class VacancyDaoTest extends DaoTestSupport {
         List<Vacancy> vacancies = vacancyDao.findMatchingForResume(1L);
 
         assertEquals(1, vacancies.size());
-        Vacancy vacancy = vacancies.getFirst();
+        Vacancy vacancy = vacancies.get(0);
         assertEquals(1L, vacancy.getId());
         assertTrue(vacancy.getSalary() >= 180_000L);
         assertEquals(1L, vacancy.getPosition().getId());
