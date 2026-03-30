@@ -16,7 +16,8 @@ public class VacancyDao {
     }
 
     public List<Vacancy> findByMinSalaryAndPosition(Long minSalary, Long positionId) {
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.openSession();
+        try {
             return session.createQuery(
                             """
                                     select v
@@ -28,11 +29,14 @@ public class VacancyDao {
                     .setParameter("positionId", positionId)
                     .setParameter("minSalary", minSalary)
                     .list();
+        } finally {
+            session.close();
         }
     }
 
     public List<Vacancy> findMatchingForResume(Long resumeId) {
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.openSession();
+        try {
             Resume resume = session.get(Resume.class, resumeId);
             if (resume == null || !resume.isActive()) {
                 return Collections.emptyList();
@@ -49,6 +53,8 @@ public class VacancyDao {
                     .setParameter("positionId", resume.getPosition().getId())
                     .setParameter("expectedSalary", resume.getMinSalary())
                     .list();
+        } finally {
+            session.close();
         }
     }
 }

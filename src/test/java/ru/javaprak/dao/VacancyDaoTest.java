@@ -3,6 +3,8 @@ package ru.javaprak.dao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import ru.javaprak.entity.*;
 import ru.javaprak.support.DaoTestSupport;
 
@@ -71,8 +73,34 @@ class VacancyDaoTest extends DaoTestSupport {
     }
 
     @Test
-    void findMatchingForResumeReturnsEmptyForInactiveOrMissingResume() {
+    void findMatchingForResumeReturnsEmptyForInactiveResume() {
         assertTrue(vacancyDao.findMatchingForResume(2L).isEmpty());
+    }
+
+    @Test
+    void findMatchingForResumeReturnsEmptyForMissingResume() {
         assertTrue(vacancyDao.findMatchingForResume(777L).isEmpty());
+    }
+
+    @Test
+    void findMatchingForResumeReturnsEmptyWhenNoVacancyMatchesSalary() {
+        saveHighSalaryActiveResume();
+
+        List<Vacancy> vacancies = vacancyDao.findMatchingForResume(10L);
+
+        assertTrue(vacancies.isEmpty());
+    }
+
+    private void saveHighSalaryActiveResume() {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction tx = session.beginTransaction();
+
+            Applicant applicant = session.get(Applicant.class, 1L);
+            Position position = session.get(Position.class, 1L);
+            Resume highSalaryResume = new Resume(10L, applicant, position, 500_000L, true);
+            session.persist(highSalaryResume);
+
+            tx.commit();
+        }
     }
 }
