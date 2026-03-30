@@ -60,4 +60,20 @@ class ResumeDaoTest extends DaoTestSupport {
         assertEquals(2, resumes.size());
         assertEquals(List.of(1L, 3L), resumes.stream().map(Resume::getId).toList());
     }
+
+    @Test
+    void findActiveByFiltersHandlesSingleSalaryBoundaries() {
+        List<Resume> minOnly = resumeDao.findActiveByFilters(null, 150_000L, null);
+        List<Resume> maxOnly = resumeDao.findActiveByFilters(null, null, 150_000L);
+
+        assertEquals(List.of(1L), minOnly.stream().map(Resume::getId).toList());
+        assertEquals(List.of(3L), maxOnly.stream().map(Resume::getId).toList());
+    }
+
+    @Test
+    void findActiveByFiltersReturnsEmptyForContradictoryRange() {
+        List<Resume> resumes = resumeDao.findActiveByFilters(null, 200_000L, 150_000L);
+
+        assertTrue(resumes.isEmpty());
+    }
 }

@@ -44,6 +44,22 @@ class VacancyDaoTest extends DaoTestSupport {
     }
 
     @Test
+    void findByMinSalaryAndPositionHandlesSingleFilterCases() {
+        List<Vacancy> byPositionOnly = vacancyDao.findByMinSalaryAndPosition(null, 1L);
+        List<Vacancy> bySalaryOnly = vacancyDao.findByMinSalaryAndPosition(180_000L, null);
+
+        assertEquals(List.of(1L, 2L), byPositionOnly.stream().map(Vacancy::getId).toList());
+        assertEquals(List.of(1L), bySalaryOnly.stream().map(Vacancy::getId).toList());
+    }
+
+    @Test
+    void findByMinSalaryAndPositionReturnsEmptyWhenNoMatches() {
+        List<Vacancy> vacancies = vacancyDao.findByMinSalaryAndPosition(1_000_000L, 1L);
+
+        assertTrue(vacancies.isEmpty());
+    }
+
+    @Test
     void findMatchingForResumeReturnsVacanciesForActiveResume() {
         List<Vacancy> vacancies = vacancyDao.findMatchingForResume(1L);
 

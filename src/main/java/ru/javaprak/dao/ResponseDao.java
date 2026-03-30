@@ -31,7 +31,7 @@ public class ResponseDao {
                     .setParameter("resumeId", resumeId)
                     .setParameter("vacancyId", vacancyId)
                     .uniqueResult();
-            return count != null && count > 0;
+            return count > 0;
         }
     }
 }
