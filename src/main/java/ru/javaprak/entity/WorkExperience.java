@@ -48,6 +48,18 @@ public class WorkExperience {
         return position;
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
     public Long getSalary() {
         return salary;
     }

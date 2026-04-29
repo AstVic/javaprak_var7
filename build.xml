@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="javaprak7" default="full-build" basedir=".">
+    <property name="maven" value="mvn"/>
+    <property name="tomcat.webapps" value="${env.CATALINA_HOME}/webapps"/>
+    <property name="war.file" value="target/javaprak7-1.0.0-SNAPSHOT.war"/>
+
+    <target name="clean">
+        <exec executable="${maven}" failonerror="true">
+            <arg value="clean"/>
+        </exec>
+    </target>
+
+    <target name="db-init">
+        <exec executable="${maven}" failonerror="true">
+            <arg value="initialize"/>
+            <arg value="generate-resources"/>
+        </exec>
+    </target>
+
+    <target name="test">
+        <exec executable="${maven}" failonerror="true">
+            <arg value="test"/>
+        </exec>
+    </target>
+
+    <target name="package">
+        <exec executable="${maven}" failonerror="true">
+            <arg value="package"/>
+            <arg value="-DskipTests"/>
+        </exec>
+    </target>
+
+    <target name="deploy" depends="package">
+        <fail unless="env.CATALINA_HOME" message="Set CATALINA_HOME to deploy with Ant."/>
+        <copy file="${war.file}" todir="${tomcat.webapps}"/>
+    </target>
+
+    <target name="full-build" depends="clean,db-init,test,package"/>
+</project>

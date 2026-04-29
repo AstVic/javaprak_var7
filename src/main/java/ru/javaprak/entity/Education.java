@@ -47,4 +47,20 @@ public class Education {
     public EducationLevel getLevel() {
         return level;
     }
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
 }

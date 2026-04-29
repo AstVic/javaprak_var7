@@ -54,6 +54,10 @@ public class Vacancy {
         return position;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
     public Long getSalary() {
         return salary;
     }

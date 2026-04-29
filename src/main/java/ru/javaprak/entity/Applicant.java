@@ -50,6 +50,18 @@ public class Applicant {
         return fullName;
     }
 
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public String getHomeAddress() {
+        return homeAddress;
+    }
+
     public boolean isActive() {
         return active;
     }

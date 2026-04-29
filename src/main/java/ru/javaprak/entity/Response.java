@@ -53,4 +53,8 @@ public class Response {
     public ResponseStatus getStatus() {
         return status;
     }
+
+    public LocalDate getDate() {
+        return date;
+    }
 }
