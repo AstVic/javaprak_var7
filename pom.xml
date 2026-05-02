@@ -29,7 +29,7 @@
         <db.pass>postgres</db.pass>
         <postgres.adminDb>postgres</postgres.adminDb>
         <sql.dir>${project.basedir}/sql</sql.dir>
-        <sql.url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</sql.url>
+        <sql.url>jdbc:h2:mem:javaprak;MODE=PostgreSQL;DATABASE_TO_LOWER=FALSE;CASE_INSENSITIVE_IDENTIFIERS=FALSE;DB_CLOSE_DELAY=-1</sql.url>
         <sql.file>${sql.dir}/show_dbs.sql</sql.file>
 
     </properties>
@@ -56,34 +56,58 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
+            <version>5.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <version>3.0.0</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <version>3.0.2</version>
+            <version>2.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-            <version>3.0.1</version>
+            <version>2.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>2.3.232</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -165,12 +189,44 @@
             </plugin>
 
             <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>11.0.20</version>
+                <configuration>
+                    <webApp>
+                        <contextPath>/javaprak7-1.0.0-SNAPSHOT</contextPath>
+                    </webApp>
+                    <stopKey>STOP</stopKey>
+                    <stopPort>9999</stopPort>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-jetty</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>3.3.1</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
                     <skipITs>${skipITs}</skipITs>
+                    <systemPropertyVariables>
+                        <app.baseUrl>http://localhost:8080/javaprak7-1.0.0-SNAPSHOT</app.baseUrl>
+                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>
@@ -189,18 +245,18 @@
 
                 <dependencies>
                     <dependency>
-                        <groupId>org.postgresql</groupId>
-                        <artifactId>postgresql</artifactId>
-                        <version>42.7.7</version>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>2.3.232</version>
                     </dependency>
                 </dependencies>
 
                 <configuration>
                     <skip>false</skip>
                     <forceMojoExecution>true</forceMojoExecution>
-                    <driver>org.postgresql.Driver</driver>
-                    <username>${db.user}</username>
-                    <password>${db.pass}</password>
+                    <driver>org.h2.Driver</driver>
+                    <username>sa</username>
+                    <password></password>
                     <url>${sql.url}</url>
                     <srcFiles>
                         <srcFile>${sql.file}</srcFile>
@@ -220,7 +276,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</url>
+                            <url>${sql.url}</url>
                             <srcFiles>
                                 <srcFile>${sql.dir}/create.sql</srcFile>
                             </srcFiles>
@@ -234,7 +290,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</url>
+                            <url>${sql.url}</url>
                             <srcFiles>
                                 <srcFile>${sql.dir}/init.sql</srcFile>
                             </srcFiles>
@@ -248,7 +304,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <url>jdbc:postgresql://${db.host}:${db.port}/${db.name}</url>
+                            <url>${sql.url}</url>
                             <srcFiles>
                                 <srcFile>${sql.dir}/drop.sql</srcFile>
                             </srcFiles>

@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RecruitmentSystemIT {
@@ -112,4 +113,62 @@ class RecruitmentSystemIT {
         assertTrue(wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[data-testid='error']"))).getText()
                 .contains("Желаемая зарплата не может быть отрицательной"));
     }
+
+    @Test
+    void resumeCreationSucceeds() {
+        String createdResumeUrl = createResume("987651");
+
+        assertTrue(createdResumeUrl.matches(baseUrl + "/resumes/\\d+"));
+        assertTrue(driver.findElement(By.tagName("body")).getText().contains("Резюме создано"));
+        assertTrue(driver.getPageSource().contains("987651"));
+        assertTrue(driver.getPageSource().contains("Резюме"));
+    }
+
+    @Test
+    void resumeUpdateSucceeds() {
+        String createdResumeUrl = createResume("987652");
+        String id = createdResumeUrl.substring(createdResumeUrl.lastIndexOf('/') + 1);
+
+        driver.get(baseUrl + "/resumes/" + id + "/edit");
+        driver.findElement(By.id("minSalary")).clear();
+        driver.findElement(By.id("minSalary")).sendKeys("987653");
+        driver.findElement(By.cssSelector("[data-testid='resume-form'] button")).click();
+
+        WebElement message = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("[data-testid='message']")));
+        assertTrue(message.getText().contains("Резюме обновлено"));
+        assertTrue(driver.getPageSource().contains("987653"));
+        assertFalse(driver.getPageSource().contains("987652"));
+    }
+
+    @Test
+    void resumeDeletionSucceeds() {
+        String createdResumeUrl = createResume("987654");
+        String id = createdResumeUrl.substring(createdResumeUrl.lastIndexOf('/') + 1);
+
+        driver.get(baseUrl + "/resumes/" + id);
+        driver.findElement(By.cssSelector("form[action*='/delete'] button")).click();
+
+        WebElement message = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("[data-testid='message']")));
+        assertTrue(message.getText().contains("Резюме удалено"));
+        assertTrue(driver.findElements(By.cssSelector("a[href$='/resumes/" + id + "']")).isEmpty());
+        assertFalse(driver.getPageSource().contains("987654"));
+    }
+
+    private String createResume(String minSalary) {
+        driver.get(baseUrl + "/resumes/new");
+        new Select(driver.findElement(By.id("applicantId"))).selectByValue("1");
+        new Select(driver.findElement(By.id("positionId"))).selectByValue("1");
+        driver.findElement(By.id("minSalary")).clear();
+        driver.findElement(By.id("minSalary")).sendKeys(minSalary);
+        WebElement activeCheckbox = driver.findElement(By.name("active"));
+        if (!activeCheckbox.isSelected()) {
+            activeCheckbox.click();
+        }
+        driver.findElement(By.cssSelector("[data-testid='resume-form'] button")).click();
+        wait.until(ExpectedConditions.urlMatches(baseUrl + "/resumes/\\d+"));
+        return driver.getCurrentUrl();
+    }
+
 }
