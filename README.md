@@ -1,7 +1,6 @@
-# Отчёт по этапу 1
-## «Кадровое агентство: вакансии и резюме» (вариант 7)
+## «Кадровое агентство: вакансии и резюме»
 
-**Репозиторий:** https://github.com/AstVic/javaprak_var7  
+**Репозиторий:** https://github.com/AstVic/staffing-agency-backend  
 **СУБД:** PostgreSQL  
 **Сборка:** Maven
 
